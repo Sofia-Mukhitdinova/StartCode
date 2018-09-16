@@ -1,0 +1,20 @@
+import pandas as pd
+import numpy as np
+import sklearn
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import KFold,cross_val_score
+data = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data',header =None)
+grade = data[0]
+attribute = data.loc[:, 1:]
+kf =KFold(len(klass), shuffle=True, random_state=42)
+mean_scores = []
+for k in range(1,100):
+    knn = KNeighborsClassifier(n_neighbors=k)
+    scores = cross_val_score(knn, attribute, grade, cv=kf, scoring='accuracy')
+    mean_scores.append(scores.mean())
+mse = [1 - x for x in mean_scores]
+plt.plot(range(1,100), mse)
+plt.xlabel('Number of K')
+plt.ylabel('Error')
+plt.show()
